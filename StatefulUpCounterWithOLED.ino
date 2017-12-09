@@ -8,7 +8,6 @@
 
 /* Constants and variables */
 const PROGMEM unsigned int MAX_RAM = 2048; // Bytes
-const PROGMEM char STR_FREE_RAM[] = "Free Memory = %d %%";
 
 
 // Line separator for Serial console
@@ -20,10 +19,10 @@ const PROGMEM unsigned int TITLE_ROW = 0;     // pixels/8
 const PROGMEM unsigned int TITLE_COL = 0;     // pixels
 const PROGMEM unsigned int SUBTITLE_ROW = 1;
 const PROGMEM unsigned int SUBTITLE_COL = 0;
-const PROGMEM unsigned int PLUS_ROW = 2;
-const PROGMEM unsigned int PLUS_COL = 0;
 const PROGMEM unsigned int COUNT_ROW = 2;
+const PROGMEM unsigned int PLUS_COL = 0;
 const PROGMEM unsigned int COUNT_COL = 60;
+const PROGMEM unsigned int RESET_COL = 37;
 
 
 // Used GPIO pins
@@ -138,12 +137,10 @@ void Display_Count() {
 }
 
 
-void Display_PlusSign() {
-  // Display_ClearLine(COUNT_ROW, COUNT_COL, true);
-  
+void Display_PlusSign() { 
   oled.set2X();
-  oled.setCursor(PLUS_COL, PLUS_ROW);
-  oled.clear(PLUS_COL, COUNT_COL - 1, PLUS_ROW, PLUS_ROW + 1);
+  oled.setCursor(PLUS_COL, COUNT_ROW);
+  oled.clear(PLUS_COL, COUNT_COL - 1, COUNT_ROW, COUNT_ROW + 1);
   delay(5);
 
   oled.set2X();
@@ -151,8 +148,8 @@ void Display_PlusSign() {
   delay(100);
   
   oled.set2X();
-  oled.setCursor(PLUS_COL, PLUS_ROW);
-  oled.clear(PLUS_COL, COUNT_COL - 1, PLUS_ROW, PLUS_ROW + 1);
+  oled.setCursor(PLUS_COL, COUNT_ROW);
+  oled.clear(PLUS_COL, COUNT_COL - 1, COUNT_ROW, COUNT_ROW + 1);
   delay(50);
 }
 
@@ -162,7 +159,7 @@ void Display_Reset() {
   Display_ClearLine(COUNT_ROW, COUNT_COL, true);
    
   oled.set2X();
-  oled.setCursor(COUNT_COL, COUNT_ROW);
+  oled.setCursor(RESET_COL, COUNT_ROW);
   oled.println("RESET");
   delay(50);
 }
@@ -192,7 +189,7 @@ void setup() {
   Serial.print(F("Stored count = "));
   Serial.println(counter.count);
 
-  delay(1000);
+  delay(1500);
   Display_FreeRam();
 
   Display_ClearLine(COUNT_ROW, 0, true);
